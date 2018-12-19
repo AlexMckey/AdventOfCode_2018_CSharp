@@ -11,7 +11,7 @@ namespace _01
         {
             var input = File.ReadAllText("input.txt");
             var freqSeq = input
-                        .Split("\r\n")
+                        .Split("\n")
                         .Select(int.Parse);
             var res1 = freqSeq.Sum();
 
