@@ -50,7 +50,8 @@ namespace _14
             var idx = -1;
             do
             {
-                Next();var s = string.Join("", seq.Skip(seq.Count - score.Length - 1));
+                Next();
+                var s = string.Join("", seq.Skip(seq.Count - score.Length - 1));
                 if (s.Contains(score))
                     idx = string.Join("", seq).IndexOf(score);
             } while (idx < 0);
