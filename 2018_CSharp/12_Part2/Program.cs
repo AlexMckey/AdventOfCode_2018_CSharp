@@ -9,23 +9,17 @@ namespace _12_Part2
     {
         static void Main(string[] args)
         {
-            HashSet<int> currentPlants = new HashSet<int>();
-            Dictionary<int, bool> rules = new Dictionary<int, bool>();
-            //var input = File.ReadAllText("input.txt").Split('\n');
-            var input = "#..#.#..##......###...###\n...## => #\n..#.. => #\n.#... => #\n.#.#. => #\n.#.## => #\n.##.. => #\n.#### => #\n#.#.# => #\n#.### => #\n##.#. => #\n##.## => #\n###.. => #\n###.# => #\n####. => #".Split('\n');
+            HashSet<int> currentPlants;
+            Dictionary<int, bool> rules;
+            var input = File.ReadAllText("input.txt").Split('\n');
+            //var input = "#..#.#..##......###...###\n...## => #\n..#.. => #\n.#... => #\n.#.#. => #\n.#.## => #\n.##.. => #\n.#### => #\n#.#.# => #\n#.### => #\n##.#. => #\n##.## => #\n###.. => #\n###.# => #\n####. => #".Split('\n');
 
             string line = input.First().Replace("initial state: ", "");
-            var r1 = line.Select((x, i) => new { x, i });
-            r1.Dump();
-            Console.WriteLine();
-            var r2 = r1
+            currentPlants = line.Select((x, i) => (x: x, idx: i))
                 .Where(c => c.x == '#')
-                .Select(c => c.i).ToList();
-            r2.Dump();
-            Console.WriteLine();
-            r2.ForEach(x => currentPlants.Add(x));
+                .Select(c => c.idx).ToHashSet();
 
-            var patterns = input
+            rules = input
                 .Skip(2)
                 .Select(str =>
                 {
@@ -35,21 +29,9 @@ namespace _12_Part2
                 })
                 .ToDictionary(p => p.from, p => p.to);
 
-            var s1 = input.Skip(2).First();
-            var s2 = Convert.ToInt32(s1.Substring(0,5).Replace('#','1').Replace('.', '0'), 2);
-            var s = "#..#.#..##......###...###";
-            var ss = s.Replace('#', '1').Replace('.', '0');
-            var isp0 = Convert.ToInt32(ss.AsSpan(0, 5).ToString(), 2);
-            var b0 = patterns[isp0];
-            var isp2 = Convert.ToInt32(ss.AsSpan(2, 5).ToString(), 2);
-            var b2 = patterns[isp2];
-
-            foreach (var ln in input.Skip(2))
-            {
-                int binary = ln.Take(5).Select((x, i) => new { x, i }).Where(c => c.x == '#').Sum(c => (int)Math.Pow(2, c.i));
-                rules.Add(binary, ln[9] == '#' ? true : false);
-            }
-
+            //var isp0 = Convert.ToInt32(ss.AsSpan(0, 5).ToString(), 2);
+            //var b0 = rules[isp0];
+            
 
             long iterations = 50000000000;
             long totalSum = 0;
@@ -68,7 +50,7 @@ namespace _12_Part2
                     {
                         if (currentPlants.Contains(pot + i - 2)) sum += (int)Math.Pow(2, i);
                     }
-                    if (rules[sum]) newPlants.Add(pot);
+                    if (rules.ContainsKey(sum)) newPlants.Add(pot);
                 }
                 // the simulation converged to a stable point
                 if (currentPlants.Select(x => x + 1).Except(newPlants).Count() == 0)
@@ -82,8 +64,7 @@ namespace _12_Part2
                 currentPlants = newPlants;
             }
 
-            Console.WriteLine(totalSum);
-            Console.ReadLine();
+            Console.WriteLine(totalSum); //5250000005040
         }
 
     }
