@@ -28,8 +28,8 @@ namespace _04
             var gi = new List<(int id, IEnumerable<int> interval)>();
             var asleepev = (dt: default(DateTime), id: 0, sleep: false);
             var curid = 0;
-            foreach (var i in events.Take(10))
-                Console.WriteLine($"{i.dt.ToString("dd.yy.yyyy HH:mm")} => {i.id} : {(i.sleep ? "sleep" : i.id == 0 ? "awake" : "shift")}");
+            //foreach (var i in events.Take(10))
+            //    Console.WriteLine($"{i.dt.ToString("dd.yy.yyyy HH:mm")} => {i.id} : {(i.sleep ? "sleep" : i.id == 0 ? "awake" : "shift")}");
             foreach (var ev in events)
             {
                 if (ev.id != 0)
