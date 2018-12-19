@@ -46,7 +46,7 @@ namespace _03
 
         static void Main(string[] args)
         {
-            var input = File.ReadAllText("input.txt").Split("\r\n");
+            var input = File.ReadAllText("input.txt").Split("\n");
 
             Rect f(string s) => new Rect(s.Split("# @,:x".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse));
 
