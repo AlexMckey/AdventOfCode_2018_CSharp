@@ -121,12 +121,12 @@ namespace _22
                 while (cur < length * width - 1)
                 {
                     
-                    if (toRight % width != 0)
-                        var edge1 = graph.Connect(cur, toRight);
-                    var toDown = cur + width;
-                    if (toDown < length * width)
-                        var edge2 = graph.Connect(cur, toDown);
-                    cur++;
+                    //if (toRight % width != 0)
+                    //    var edge1 = graph.Connect(cur, toRight);
+                    //var toDown = cur + width;
+                    //if (toDown < length * width)
+                    //    var edge2 = graph.Connect(cur, toDown);
+                    //cur++;
                 }
                 return graph;
             }
