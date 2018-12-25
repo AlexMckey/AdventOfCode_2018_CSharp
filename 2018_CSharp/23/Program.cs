@@ -50,10 +50,15 @@ namespace _23
                 .Select(str => str
                     .Split(",")
                     .Select(int.Parse))
-                .Select(arr => new Pos3DR(arr.First(),
-                    arr.Skip(1).First(),
-                    arr.Skip(2).First(),
-                    arr.Last()));
+                .Select(arr =>
+                {
+                    var enumerable = arr as int[] ?? arr.ToArray();
+                    return new Pos3DR(enumerable.First(),
+                        enumerable.Skip(1).First(),
+                        enumerable.Skip(2).First(),
+                        enumerable.Last());
+                })
+                .ToList();
             var lsrn /*largestSignalRadiusNanobot*/ = nanobots
                 .OrderByDescending(nb => nb.r).First();
             var botsInRadius = nanobots
@@ -77,12 +82,12 @@ namespace _23
             var p2 = nanobots.Skip(1).First();
             var x12l = Max(p1.x - p1.r, p2.x - p2.r);
             var x12r = Min(p1.x + p1.r, p2.x + p2.r);
-            var ds = nanobots.Aggregate(
+            var (x, y, z) = nanobots.Aggregate(
                 (x: (lx: int.MinValue, rx: int.MaxValue), y: (ly: int.MinValue, ry: int.MaxValue), z: (lz: int.MinValue, rz: int.MaxValue)),
                 (acc, n) => (((int, int), (int, int), (int, int)))
-                   ((Max(acc.x.lx, n.x - n.r), Min(acc.x.rx, n.x + n.r)),
-                    (Max(acc.y.ly, n.y - n.r), Min(acc.y.ry, n.y + n.r)),
-                    (Max(acc.z.lz, n.z - n.r), Min(acc.z.rz, n.z + n.r))));
+                    ((Max(acc.x.lx, n.x - n.r), Min(acc.x.rx, n.x + n.r)),
+                        (Max(acc.y.ly, n.y - n.r), Min(acc.y.ry, n.y + n.r)),
+                        (Max(acc.z.lz, n.z - n.r), Min(acc.z.rz, n.z + n.r))));
 
             Console.WriteLine($"{point}");
         }
